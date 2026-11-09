@@ -1,0 +1,191 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+    color: #222;
+    line-height: 1.5;
+}
+
+/* Header */
+
+header {
+    background: #eeeeee;
+    color: #222;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+header h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 17px;
+}
+
+header span {
+    display: block;
+    margin-top: 5px;
+    font-size: 13px;
+    color: #555;
+}
+
+/* Main */
+
+main {
+    max-width: 950px;
+    margin: 25px auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 15px 0;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ccc;
+}
+
+h2 {
+    font-size: 21px;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+p {
+    color: #444;
+}
+
+/* Query Form */
+
+.query-form {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    font-size: 14px;
+    background: white;
+}
+
+button {
+    padding: 9px 16px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #555;
+}
+
+button:disabled {
+    background: #999;
+    cursor: not-allowed;
+}
+
+/* Results Table */
+
+.subtitle {
+    margin-bottom: 10px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background: #eeeeee;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+td:first-child {
+    font-weight: bold;
+}
+
+#status {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #555;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #eeeeee;
+    margin-top: 30px;
+}
+
+footer p {
+    font-size: 13px;
+    color: #444;
+}
+
+/* Mobile */
+
+@media (max-width: 650px) {
+    header h1 {
+        font-size: 23px;
+    }
+
+    .query-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 7px 5px;
+    }
+}

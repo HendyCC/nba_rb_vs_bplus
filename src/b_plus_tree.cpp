@@ -175,7 +175,7 @@ unsigned long long BPlusTree::rangeCount(unsigned long long lo, unsigned long lo
 
 unsigned long long BPlusTree::size() const { return recordCount; }
 
-unsigned long long BPlusTree::nodeCount() const { return allNodes.size(); }
+unsigned long long BPlusTree::node_count() const { return allNodes.size(); }
 
 int BPlusTree::height() const {
         int h = 0;

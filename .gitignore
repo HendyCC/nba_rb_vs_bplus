@@ -72,4 +72,4 @@ Testing/
 cmake-build-*/
 
 # Dataset (too large for git)
-data/*.csv
+data/*.csv.DS_Store

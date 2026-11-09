@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Database Performance Comparison</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>NBA Database Performance</h1>
+    <p>Red-Black Tree vs. B+ Tree</p>
+    <span>Data Structures Comparison</span>
+</header>
+
+<main>
+
+    <section>
+        <h2>Run a Query</h2>
+
+        <div class="query-form">
+
+            <div class="form-group">
+                <label for="queryType">Query Type</label>
+                <select id="queryType">
+                    <option value="exact">Exact Lookup</option>
+                    <option value="range">Range Query</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="startID">Game ID</label>
+                <input
+                        type="number"
+                        id="startID"
+                        placeholder="Enter game ID"
+                >
+            </div>
+
+            <div class="form-group" id="endIDContainer" hidden>
+                <label for="endID">Ending Game ID</label>
+                <input
+                        type="number"
+                        id="endID"
+                        placeholder="Enter ending game ID"
+                >
+            </div>
+
+            <button id="runButton" onclick="runQuery()">
+                Run Query
+            </button>
+
+        </div>
+    </section>
+
+    <section>
+        <h2>Performance Comparison</h2>
+        <p class="subtitle">
+            Results from running the same query on both data structures.
+        </p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Red-Black Tree</th>
+                    <th>B+ Tree</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>Execution Time (μs)</td>
+                    <td id="rbTime">--</td>
+                    <td id="bpTime">--</td>
+                </tr>
+
+                <tr>
+                    <td>Total Nodes</td>
+                    <td id="rbNodes">--</td>
+                    <td id="bpNodes">--</td>
+                </tr>
+
+                <tr>
+                    <td>Tree Height</td>
+                    <td id="rbHeight">--</td>
+                    <td id="bpHeight">--</td>
+                </tr>
+
+                <tr>
+                    <td>Records Returned</td>
+                    <td id="rbRecords">--</td>
+                    <td id="bpRecords">--</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p id="status">Run a query to display the performance results.</p>
+    </section>
+
+</main>
+
+<footer>
+    <p>NBA Database Performance Comparison Project</p>
+</footer>
+
+<script>
+    const queryType = document.getElementById("queryType");
+    const endIDContainer = document.getElementById("endIDContainer");
+
+    queryType.addEventListener("change", function () {
+        endIDContainer.hidden = queryType.value !== "range";
+    });
+
+    async function runQuery() {
+
+        const type = queryType.value;
+        const startID = document.getElementById("startID").value;
+        const endID = document.getElementById("endID").value;
+
+        const status = document.getElementById("status");
+        const button = document.getElementById("runButton");
+
+        if (startID === "") {
+            status.textContent = "Please enter a game ID.";
+            return;
+        }
+
+        if (type === "range" && endID === "") {
+            status.textContent = "Please enter an ending game ID.";
+            return;
+        }
+
+        if (type === "range" && Number(endID) < Number(startID)) {
+            status.textContent = "Ending game ID must be greater than or equal to the starting game ID.";
+            return;
+        }
+
+        status.textContent = "Running query...";
+        button.disabled = true;
+
+        try {
+
+            const response = await fetch("/query", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    type: type,
+                    startID: Number(startID),
+                    endID: type === "range" ? Number(endID) : Number(startID)
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Query failed.");
+            }
+
+            const data = await response.json();
+
+            document.getElementById("rbTime").textContent = data.rbTime;
+            document.getElementById("bpTime").textContent = data.bpTime;
+
+            document.getElementById("rbNodes").textContent = data.rbNodes;
+            document.getElementById("bpNodes").textContent = data.bpNodes;
+
+            document.getElementById("rbHeight").textContent = data.rbHeight;
+            document.getElementById("bpHeight").textContent = data.bpHeight;
+
+            document.getElementById("rbRecords").textContent = data.rbRecords;
+            document.getElementById("bpRecords").textContent = data.bpRecords;
+
+            status.textContent = "Query completed successfully.";
+
+        } catch (error) {
+            status.textContent = "Unable to connect to the C++ program.";
+            console.error(error);
+
+        } finally {
+            button.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>

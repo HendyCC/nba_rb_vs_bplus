@@ -67,7 +67,7 @@ public:
     unsigned long long rangeCount(unsigned long long lo, unsigned long long hi) const;
 
     unsigned long long size() const;
-    unsigned long long nodeCount() const;
+    unsigned long long node_count() const;
 
     int height() const;
 };
